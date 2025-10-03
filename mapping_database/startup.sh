@@ -113,6 +113,12 @@ if (db.getUser("appuser") == null) {
 print("MongoDB setup complete!");
 EOF
 
+# Initialize database schema (collections and indexes)
+echo "Initializing MongoDB schema..."
+mongosh --port ${DB_PORT} ${DB_NAME} init_schema.js || {
+    echo "⚠ Schema initialization failed. Check init_schema.js and MongoDB logs."
+}
+
 # Save connection command to a file
 echo "mongosh mongodb://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}?authSource=admin" > db_connection.txt
 echo "Connection string saved to db_connection.txt"
